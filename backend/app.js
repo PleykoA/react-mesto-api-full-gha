@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -7,15 +8,23 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
 const error = require('./middlewares/error');
 const auth = require('./middlewares/auth');
+const { validationCreateUser, validationLogin } = require('./middlewares/validation');
+
+const { PORT = 3000 } = process.env;
+const { createUser, login, logout } = require('./controllers/users');
 
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-const { validationCreateUser, validationLogin } = require('./middlewares/validation');
-
-const { PORT = 3000 } = process.env;
-const { createUser, login, logout } = require('./controllers/users');
+const allowedCors = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(allowedCors));
 
 app.use(requestLogger);
 
