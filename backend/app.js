@@ -17,15 +17,22 @@ const { validationCreateUser, validationLogin } = require('./middlewares/validat
 const { PORT = 3000 } = process.env;
 const { createUser, login, logout } = require('./controllers/users');
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+app.use(requestLogger);
+
 app.get('/signout', logout);
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
 app.use(auth);
 
 app.use(router);
-
 app.use(errorLogger);
-app.use(requestLogger);
+
+
 app.use(errors());
 app.use(error);
 
