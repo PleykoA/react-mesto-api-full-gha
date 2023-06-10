@@ -1,13 +1,14 @@
 const jwt = require('jsonwebtoken');
 const AuthorizationError = require('../errors/AuthorizationError');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET = 'dev-secret' } = process.env;
 
-const auth = (req, res, next) => {
+const auth = (req, _, next) => {
+
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(new AuthorizationError('Ошибка: неверный электронный адрес или пароль'));
+    return next(new AuthorizationError('Необходима авторизация'));
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -16,15 +17,17 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(
       token,
-      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'
+      `${NODE_ENV === 'production'
+        ? JWT_SECRET
+        : 'dev-secret'}`,
     );
   } catch (err) {
-    next(new AuthorizationError('Ошибка: неверный электронный адрес или пароль'));
+    throw new AuthorizationError('Ошибка: неверный электронный адрес или пароль');
   }
 
   req.user = payload;
 
-  return next();
+  next();
 };
 
 module.exports = auth;
