@@ -8,7 +8,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
 const error = require('./middlewares/error');
 const auth = require('./middlewares/auth');
-const cors = require('./middlewares/cors');
+
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -24,7 +24,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 app.use(requestLogger);
-app.use(cors);
+
 app.get('/signout', logout);
 app.post('/signup', validationCreateUser, createUser);
 app.post('/signin', validationLogin, login);
