@@ -2,7 +2,10 @@
 logs
 *.log
 npm-debug.log*
-
+.env
+.env.js
+.env.json
+.env-cmdrc
 # Dependency directory
 node_modules
 

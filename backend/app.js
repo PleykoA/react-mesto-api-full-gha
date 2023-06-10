@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -7,7 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
 const error = require('./middlewares/error');
 const auth = require('./middlewares/auth');
-
+const cors = require('./middlewares/cors');
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -23,10 +25,10 @@ app.get('/crash-test', () => {
   }, 0);
 });
 app.use(requestLogger);
-
+app.use(cors);
 app.get('/signout', logout);
-app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
+app.post('/signin', validationLogin, login);
 app.use(auth);
 
 app.use(router);
