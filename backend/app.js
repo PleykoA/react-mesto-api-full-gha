@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -16,15 +16,6 @@ const { createUser, login, logout } = require('./controllers/users');
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
-
-const allowedCors = {
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-};
-app.use(cors(allowedCors));
 
 app.use(requestLogger);
 
