@@ -6,5 +6,4 @@ const error = (err, _, res, next) => {
 
   next();
 };
-
 module.exports = error;
