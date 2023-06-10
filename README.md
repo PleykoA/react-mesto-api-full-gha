@@ -11,6 +11,6 @@
 
 IP 51.250.21.118
 
-Frontend https://pleykoa.nomoredomains.monster
+Frontend https://pleykoa.nomoredomains.rocks
 
-Backend https://api.pleykoa.nomoredomains.monster
+Backend https://api.pleykoa.nomoredomains.rocks
