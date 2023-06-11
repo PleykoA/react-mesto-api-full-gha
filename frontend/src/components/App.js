@@ -93,12 +93,12 @@ function App() {
             .then((res) => {
                 if (res) {
                     setLoggedIn(true);
-                    setEmailUser(res.data.email);
+                    setEmailUser(res.email);
                     navigate('/');
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
     useEffect(() => {

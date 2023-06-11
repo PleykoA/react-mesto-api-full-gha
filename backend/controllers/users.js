@@ -146,8 +146,9 @@ const login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: (7 * 24 * 60 * 60 * 1000),
           httpOnly: true,
+          sameSite: 'None',
+          secure: true,
         })
-        .header('Access-Control-Expose-Headers', 'Set-Cookie')
         .send({ message: 'Вы успешно авторизовались!' })
         .end();
     })

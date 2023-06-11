@@ -23,4 +23,3 @@ const auth = (req, _, next) => {
   next();
 };
 module.exports = auth;
-

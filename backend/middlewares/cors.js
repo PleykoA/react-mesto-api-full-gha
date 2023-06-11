@@ -2,6 +2,8 @@ const allowedCors = [
   'https://pleykoa.nomoredomains.rocks',
   'http://pleykoa.nomoredomains.rocks',
   'localhost:3000',
+  'localhost:3002',
+  'http://localhost:3002',
 ];
 
 // eslint-disable-next-line consistent-return
