@@ -81,7 +81,7 @@ function App() {
                 setEnter(true);
                 localStorage.setItem('jwt', res.jwt);
                 setLoggedIn(true);
-                navigate('/sign-in', { replace: true });
+                navigate('/signin', { replace: true });
                 console.log(res);
             })
             .catch((err) => {
