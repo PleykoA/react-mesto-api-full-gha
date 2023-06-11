@@ -46,7 +46,7 @@ class Auth {
 }
 
 const auth = new Auth({
-    url: 'https://auth.nomoreparties.co',
+    url: 'https://api.pleykoa.nomoredomains.rocks',
 });
 
 export default auth;

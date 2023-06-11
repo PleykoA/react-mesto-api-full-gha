@@ -260,17 +260,17 @@ function App() {
         <div className='page'>
             <CurrentUserContext.Provider value={currentUser}>
                 <Routes>
-                    <Route path='/sign-in'
+                    <Route path='/signin'
                         element={
                             <>
-                                <Header title='Регистрация' link='/sign-up' />
+                                <Header title='Регистрация' link='/signup' />
                                 <Login onLogin={handleLogin} loggedIn={loggedIn} />
                             </>
                         }
                     />
-                    <Route path='/sign-up'
+                    <Route path='/signup'
                         element={<>
-                            <Header title='Войти' link='/sign-in' />
+                            <Header title='Войти' link='/signin' />
                             <Register onRegister={handleRegister} />
                         </>}
                     />
