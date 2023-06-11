@@ -147,6 +147,7 @@ const login = (req, res, next) => {
           maxAge: (7 * 24 * 60 * 60 * 1000),
           httpOnly: true,
         })
+        .header('Access-Control-Expose-Headers', 'Set-Cookie')
         .send({ message: 'Вы успешно авторизовались!' })
         .end();
     })
