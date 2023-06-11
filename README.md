@@ -8,7 +8,7 @@
 
 ## Ссылки на проект:
 
-IP 51.250.21.118
+IP 158.160.4.17
 
 Frontend https://pleykoa.nomoredomains.rocks
 
