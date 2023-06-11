@@ -60,12 +60,9 @@ function App() {
     function handleLogin(email, password) {
         auth
             .authorize(email, password)
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('jwt', data.token);
-                    setLoggedIn(true);
-                    navigate('/', { replace: true });
-                }
+            .then(() => {
+                setLoggedIn(true);
+                navigate('/', { replace: true });
             })
             .catch((err) => {
                 setInfoTTOpen(true)
@@ -77,12 +74,10 @@ function App() {
     function handleRegister(values) {
         auth
             .register(values.email, values.password)
-            .then((res) => {
+            .then(() => {
                 setEnter(true);
-                localStorage.setItem('jwt', res.jwt);
                 setLoggedIn(true);
                 navigate('/signin', { replace: true });
-                console.log(res);
             })
             .catch((err) => {
                 setEnter(false);
@@ -92,30 +87,26 @@ function App() {
                 setInfoTTOpen(true));
     }
 
-    function checkToken() {
-        const token = localStorage.getItem("jwt")
-        if (token) {
-            auth
-                .getToken(token)
-                .then((res) => {
-                    if (res) {
-                        setLoggedIn(true);
-                        setEmailUser(res.data.email);
-                        navigate('/');
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
+    function checkUser() {
+        api
+            .getUserInfoApi()
+            .then((res) => {
+                if (res) {
+                    setLoggedIn(true);
+                    setEmailUser(res.data.email);
+                    navigate('/');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     useEffect(() => {
-        checkToken();
+        checkUser();
     }, [loggedIn]);
 
     function handleSingOut() {
         setLoggedIn(false);
-        localStorage.removeItem('jwt');
     }
 
     useEffect(() => {
