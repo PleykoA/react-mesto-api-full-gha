@@ -1,5 +1,5 @@
 const allowedCors = [
-  'https://pleykoa.nomoredomains.rocks/',
+  'https://pleykoa.nomoredomains.rocks',
 ];
 
 const cors = (req, res, next) => {
