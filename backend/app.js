@@ -8,12 +8,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
 const error = require('./middlewares/error');
 const auth = require('./middlewares/auth');
-
-const app = express();
 const { validationCreateUser, validationLogin } = require('./middlewares/validation');
+const { createUser, login, logout } = require('./controllers/users');
 
 const { PORT = 3000 } = process.env;
-const { createUser, login, logout } = require('./controllers/users');
+const app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
