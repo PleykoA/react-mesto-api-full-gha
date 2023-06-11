@@ -15,7 +15,7 @@ const auth = (req, _, next) => {
         : 'dev-secret'}`,
     );
   } catch (err) {
-    throw new AuthorizationError('Ошибка: неверный электронный адрес или пароль');
+    throw new AuthorizationError(`Ошибка авторизации: ${err.message}`);
   }
 
   req.user = payload;
@@ -23,3 +23,4 @@ const auth = (req, _, next) => {
   next();
 };
 module.exports = auth;
+
