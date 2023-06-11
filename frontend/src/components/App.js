@@ -1,23 +1,22 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import auth from '../utils/auth.js';
+import { Api } from '../utils/Api';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
-import api from '../utils/Api';
-import CurrentUserContext from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import PopupWithConfirmation from './PopupWithConfirmation';
-import auth from '../utils/auth.js';
 import ProtectedRoute from './ProtectedRoute';
+import PopupWithConfirmation from './PopupWithConfirmation';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 
 function App() {
-
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -34,6 +33,17 @@ function App() {
     const [enter, setEnter] = useState(false);
     const navigate = useNavigate();
 
+    // чтобы не терять jwt при логине
+    const api = new Api(
+        {
+            baseUrl: 'https://api.pleykoa.nomoredomains.rocks',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        }
+    );
+
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
@@ -41,17 +51,19 @@ function App() {
                 .checkToken(jwt)
                 .then((res) => {
                     if (res) {
-                        setLoggedIn(true);
                         navigate('/');
                         setEmailUser(res.email);
+                        setLoggedIn(true);
                     }
                 })
                 .catch((err) => console.log(err));
         }
-    }, [navigate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
-        loggedIn &&
+        setTimeout(() => {
+            loggedIn &&
             Promise.all([api.getUserInfoApi(), api.getInitialCards()])
                 .then(([user, cardData]) => {
                     setCurrentUser(user);
@@ -61,6 +73,7 @@ function App() {
                 .catch((err) => {
                     console.log(err);
                 });
+        }, 0);
     }, [loggedIn]);
 
     function closePopup(evt) {

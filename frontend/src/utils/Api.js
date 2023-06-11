@@ -90,17 +90,4 @@ export class Api {
       .then(res =>
         this._response(res));
   }
-
 }
-
-const api = new Api(
-  {
-    baseUrl: 'https://api.pleykoa.nomoredomains.rocks',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    },
-  }
-);
-
-export default api;
