@@ -3,25 +3,27 @@ const AuthorizationError = require('../errors/AuthorizationError');
 
 const { NODE_ENV, JWT_SECRET = 'dev-secret' } = process.env;
 
-const auth = (req, _, next) => {
-  const cookiesToken = req.cookies.jwt;
+const auth = (req, res, next) => {
   const { authorization } = req.headers;
-  const jwtToken = cookiesToken || (authorization || '').replace('Bearer ', '');
+
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return next(new AuthorizationError('Необходима авторизация'));
+  }
+
+  const token = authorization.replace('Bearer ', '');
   let payload;
 
   try {
     payload = jwt.verify(
-      jwtToken,
-      `${NODE_ENV === 'production'
-        ? JWT_SECRET
-        : 'dev-secret'}`,
+      token,
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
     );
   } catch (err) {
-    throw new AuthorizationError(`Ошибка авторизации: ${err.message}`);
+    next(new AuthorizationError(`Ошибка авторизации: ${err.message}`));
   }
 
   req.user = payload;
 
-  next();
+  return next();
 };
 module.exports = auth;

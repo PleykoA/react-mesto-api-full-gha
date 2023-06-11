@@ -26,6 +26,7 @@ function App() {
     const [cards, setCards] = useState([]);
     const [cardToDelete, setCardToDelete] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isUserLoaded, setIsUserLoaded] = useState(false);
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [isInfoTooltipOpen, setInfoTTOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -34,11 +35,28 @@ function App() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const jwt = localStorage.getItem('jwt');
+        if (jwt) {
+            auth
+                .checkToken(jwt)
+                .then((res) => {
+                    if (res) {
+                        setLoggedIn(true);
+                        navigate('/');
+                        setEmailUser(res.email);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [navigate]);
+
+    useEffect(() => {
         loggedIn &&
             Promise.all([api.getUserInfoApi(), api.getInitialCards()])
                 .then(([user, cardData]) => {
                     setCurrentUser(user);
-                    setCards(cardData)
+                    setCards(cardData);
+                    setIsUserLoaded(true);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -60,9 +78,12 @@ function App() {
     function handleLogin(email, password) {
         auth
             .authorize(email, password)
-            .then(() => {
-                setLoggedIn(true);
-                navigate('/', { replace: true });
+            .then((data) => {
+                if (data.token) {
+                    localStorage.setItem('jwt', data.token);
+                    setLoggedIn(true);
+                    navigate('/');
+                }
             })
             .catch((err) => {
                 setInfoTTOpen(true)
@@ -87,26 +108,10 @@ function App() {
                 setInfoTTOpen(true));
     }
 
-    function checkUser() {
-        api
-            .getUserInfoApi()
-            .then((res) => {
-                if (res) {
-                    setLoggedIn(true);
-                    setEmailUser(res.email);
-                    navigate('/');
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }
-    useEffect(() => {
-        checkUser();
-    }, [loggedIn]);
-
     function handleSingOut() {
         setLoggedIn(false);
+        setEmailUser('');
+        localStorage.removeItem('jwt');
     }
 
     useEffect(() => {
@@ -284,6 +289,7 @@ function App() {
                                     onCardLike={handleCardLike}
                                     onCardDelete={handleCardDelete}
                                     cards={cards}
+                                    isUserLoaded={isUserLoaded}
                                 />
                                 <Footer />
                             </>

@@ -32,6 +32,16 @@ class Auth {
         }).then((res) =>
             this.checkResp(res));
     }
+
+    checkToken(token) {
+        return fetch(`${this._url}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${token}`,
+            },
+        }).then((res) => this.checkResp(res));
+    };
 }
 
 const auth = new Auth({
