@@ -6,7 +6,7 @@
 
 Адрес репозитория: https://github.com/PleykoA/react-mesto-api-full-gha
 
-## Ссылки на проект
+## Ссылки на проект:
 
 IP 51.250.21.118
 
