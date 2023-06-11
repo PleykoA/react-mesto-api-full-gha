@@ -4,12 +4,14 @@ const AuthorizationError = require('../errors/AuthorizationError');
 const { NODE_ENV, JWT_SECRET = 'dev-secret' } = process.env;
 
 const auth = (req, _, next) => {
-  const token = req.cookies.jwt;
+  const cookiesToken = req.cookies.jwt;
+  const { authorization } = req.headers;
+  const jwtToken = cookiesToken || (authorization || '').replace('Bearer ', '');
   let payload;
 
   try {
     payload = jwt.verify(
-      token,
+      jwtToken,
       `${NODE_ENV === 'production'
         ? JWT_SECRET
         : 'dev-secret'}`,

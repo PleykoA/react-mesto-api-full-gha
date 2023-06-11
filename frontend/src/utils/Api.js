@@ -14,14 +14,14 @@ export class Api {
 
   getUserInfoApi() {
     return fetch(`${this._baseUrl}/users/me`,
-      { headers: this._headers, credentials: 'include' })
+      { headers: this._headers })
       .then(res =>
         this._response(res));
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`,
-      { headers: this._headers, credentials: 'include'  })
+      { headers: this._headers })
       .then(res =>
         this._response(res));
   }
@@ -33,8 +33,7 @@ export class Api {
         name: card.name,
         link: card.link
       }),
-      headers: this._headers,
-      credentials: 'include'
+      headers: this._headers
     })
       .then(res =>
         this._response(res));
@@ -43,7 +42,7 @@ export class Api {
   deleteCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}`, {
       method: 'DELETE',
-      headers: this._headers, credentials: 'include'
+      headers: this._headers
     })
       .then(res =>
         this._response(res));
@@ -52,7 +51,7 @@ export class Api {
   likeCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'PUT',
-      headers: this._headers, credentials: 'include'
+      headers: this._headers
     })
       .then(res =>
         this._response(res));
@@ -61,7 +60,7 @@ export class Api {
   removeLikeCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'DELETE',
-      headers: this._headers, credentials: 'include'
+      headers: this._headers
     })
       .then(res =>
         this._response(res));
@@ -74,7 +73,7 @@ export class Api {
       body: JSON.stringify({
         name: data.name,
         about: data.about
-      }), credentials: 'include'
+      })
     })
       .then(res =>
         this._response(res));
@@ -86,18 +85,18 @@ export class Api {
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar
-      }), credentials: 'include'
+      })
     })
       .then(res =>
         this._response(res));
   }
+
 }
 
 const api = new Api(
   {
     baseUrl: 'https://api.pleykoa.nomoredomains.rocks',
     headers: {
-      authorization: '4842089d-f2bb-472a-aa84-030e4841425a',
       'Content-Type': 'application/json'
     }
   }
