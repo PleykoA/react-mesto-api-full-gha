@@ -33,7 +33,6 @@ function App() {
     const [enter, setEnter] = useState(false);
     const navigate = useNavigate();
 
-    // чтобы не терять jwt при логине
     const api = new Api(
         {
             baseUrl: 'https://api.pleykoa.nomoredomains.rocks',
@@ -114,7 +113,7 @@ function App() {
                 navigate('/signin', { replace: true });
             })
             .catch((err) => {
-                setEnter(false);
+                setEnter(true);
                 console.log(err);
             })
             .finally(() =>

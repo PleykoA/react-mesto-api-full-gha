@@ -91,3 +91,15 @@ export class Api {
         this._response(res));
   }
 }
+
+const api = new Api(
+  {
+    baseUrl: 'https://api.pleykoa.nomoredomains.rocks',
+    headers: {
+      authorization: '4842089d-f2bb-472a-aa84-030e4841425a',
+      'Content-Type': 'application/json'
+    }
+  }
+);
+
+export default api;
