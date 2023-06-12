@@ -94,7 +94,7 @@ function App() {
                 if (data.token) {
                     localStorage.setItem('jwt', data.token);
                     setLoggedIn(true);
-                    setEmailUser(data.email);
+                    setEmailUser(email);
                     navigate('/');
                 }
             })
