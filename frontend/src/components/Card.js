@@ -3,16 +3,17 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
   const cardDeleteButtonClassName = isOwn
     ? 'card__delete'
     : 'card__delete_disable';
+  const isLiked = card.likes.some((like) => {
+    return like === currentUser._id;
+  });
 
-  function isLiked() {
-    return card.likes.some((like) => {
-      return currentUser._id === like._id;
-    });
-  }
+  const cardLikeButtonClassName = isLiked
+      ? 'card__like card__like_active'
+      : 'card__like';
 
   return (
     <div id='card-template'>
@@ -23,27 +24,24 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
           src={card.link}
           onClick={() => onCardClick(card)}
         />
-
-        <button
-          className={cardDeleteButtonClassName}
-          type='button'
-          onClick={() => onCardDelete(card)}>
-        </button>
-
         <div className='card__container'>
           <h2 className='card__title'>{card.name}</h2>
           <div className='card__like_container'>
 
             <button
-              className={`card__like ${isLiked() && 'card__like_active'}`}
+              className={cardLikeButtonClassName}
               type='button'
               id='like'
               onClick={() => onCardLike(card)}>
             </button>
-
             <span className='card__like-count'>{card.likes.length}</span>
           </div>
         </div>
+        <button
+            className={cardDeleteButtonClassName}
+            type='button'
+            onClick={() => onCardDelete(card)}>
+        </button>
       </li>
     </div>
   );

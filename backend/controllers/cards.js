@@ -59,7 +59,7 @@ const likeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Ошибка: пользователь не найден');
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -79,7 +79,7 @@ const removeLikeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Ошибка: пользователь не найден');
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
